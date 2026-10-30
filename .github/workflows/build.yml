@@ -1,4 +1,3 @@
-
 name: Build Black Hole XP Orb
 
 on:
@@ -7,7 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -22,18 +20,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Extract project ZIP
-        run: |
-          unzip -o BlackHoleXPOrb_1.21.11_Fabric_Renderer_Prototype.zip -d extracted
-
-      - name: Fix Minecraft renderer API and improve black hole
-        run: |
-          FILE="extracted/blackhole-xp-orb/src/main/java/dev/hadi/blackholexp/mixin/ExperienceOrbRendererMixin.java"
-
-          sed -i 's/import net.minecraft.client.render.RenderLayer;/import net.minecraft.client.render.RenderLayers;/' "$FILE"
-          sed -i 's/RenderLayer.getEntityTranslucent(BLACK_HOLE_TEXTURE)/RenderLayers.entityTranslucent(BLACK_HOLE_TEXTURE)/' "$FILE"
-
-          sed -i 's/matrices.scale(0.42f, 0.42f, 0.42f);/matrices.scale(1.0f, 1.0f, 1.0f);/' "$FILE"
-          sed -i 's/2,1,8,255/255,255,255,255/g' "$FILE"
+        run: unzip -o BlackHoleXPOrb_1.21.11_Fabric_Renderer_v2.zip -d extracted
 
       - name: Build mod
         run: |
@@ -45,4 +32,3 @@ jobs:
         with:
           name: BlackHoleXPOrb-Mod
           path: extracted/blackhole-xp-orb/build/libs/*.jar
-          
