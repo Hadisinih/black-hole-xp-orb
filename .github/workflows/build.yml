@@ -25,11 +25,15 @@ jobs:
         run: |
           unzip -o BlackHoleXPOrb_1.21.11_Fabric_Renderer_Prototype.zip -d extracted
 
-      - name: Fix Minecraft renderer API
+      - name: Fix Minecraft renderer API and improve black hole
         run: |
           FILE="extracted/blackhole-xp-orb/src/main/java/dev/hadi/blackholexp/mixin/ExperienceOrbRendererMixin.java"
+
           sed -i 's/import net.minecraft.client.render.RenderLayer;/import net.minecraft.client.render.RenderLayers;/' "$FILE"
           sed -i 's/RenderLayer.getEntityTranslucent(BLACK_HOLE_TEXTURE)/RenderLayers.entityTranslucent(BLACK_HOLE_TEXTURE)/' "$FILE"
+
+          sed -i 's/matrices.scale(0.42f, 0.42f, 0.42f);/matrices.scale(1.0f, 1.0f, 1.0f);/' "$FILE"
+          sed -i 's/2,1,8,255/255,255,255,255/g' "$FILE"
 
       - name: Build mod
         run: |
